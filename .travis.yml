@@ -12,6 +12,7 @@ script:
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - env
   - docker push ${DOCKER_USER}/jenkins-scheduler:$TRAVIS_TAG
 env:
   global:
