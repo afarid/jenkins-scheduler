@@ -1,0 +1,11 @@
+sudo: required
+services:
+  - docker
+language: go
+go:
+  - '1.13.3'
+before_install:
+  - go get ./...
+script:
+  - go build main.go
+  - docker ps -a
