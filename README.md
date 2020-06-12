@@ -1,4 +1,4 @@
-# MySQL Server Exporter [![Build Status](https://travis-ci.org/prometheus/mysqld_exporter.svg)][travis]
+# MySQL Server Exporter [Build Status](https://travis-ci.org/prometheus/mysqld_exporter.svg)
 
 [![CircleCI](https://circleci.com/gh/afarid/jenkins-scheduler/tree/master.svg?style=shield)][circleci]
 [![Docker Repository on Quay](https://quay.io/repository/prometheus/mysqld-exporter/status)][quay]
