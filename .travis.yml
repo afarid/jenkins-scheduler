@@ -8,4 +8,11 @@ before_install:
   - go get ./...
 script:
   - go build main.go
-  - docker ps -a
+  - go build -o jenkins-scheduler main.go
+
+after_success:
+  - docker push ${DOCKER_USER}/jenkins-scheduler:$TRAVIS_TAG
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+env:
+  global:
+    - DOCKER_USER=amrfarid
