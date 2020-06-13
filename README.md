@@ -24,7 +24,7 @@ jobs:
 ```    
 ### Using the docker image
 ```shell script
-  docker run --rm -d  --name jenkins-scheduler -v `pwd`/config.yaml:/config.yaml afarid/jenkins-scheduler:latest
+  docker run --rm -d  --name jenkins-scheduler -v `pwd`/config.yaml:/config.yaml amrfarid/jenkins-scheduler:latest
 ```
     
 [hub]: https://hub.docker.com/r/jenkins-scheduler
