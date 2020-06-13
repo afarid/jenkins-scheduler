@@ -1,0 +1,10 @@
+jenkins:
+  server: "https://jenkins.example.com/"
+  user: "example-user"
+  token: "jenkins-token"
+
+jobs:
+  - name: "jenkins-job-name"
+    schedule: "0 * * * * *"
+    parameters:
+      envName: "testing"

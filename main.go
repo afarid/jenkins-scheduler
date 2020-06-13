@@ -20,7 +20,7 @@ type JenkinsServerConfig struct {
 type JenkinsJobConfig struct {
 	Name    string `yaml:"name"`
 	Schedule string `yaml:"schedule"`
-	Options map[string]string `yaml:"options"`
+	Parameters map[string]string `yaml:"parameters"`
 }
 
 type Config struct {
@@ -35,7 +35,7 @@ func triggerJenkinsJob(serverConfig JenkinsServerConfig, jenkinsToken string,  j
 	if err != nil {
 		return err
 	}
-	_, err = jenkins.BuildJob(jobConfig.Name, jobConfig.Options)
+	_, err = jenkins.BuildJob(jobConfig.Name, jobConfig.Parameters)
 	if err != nil {
 		return err
 	}

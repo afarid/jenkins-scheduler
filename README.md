@@ -9,15 +9,23 @@ The jenkins scheduler enables triggering jenkins jobs with predefined scheduled 
 
 ## Running this software 
 
-### From binaries 
-Download the most suitable binary from [the releases tab](https://github.com/afarid/jenkins-scheduler/releases)
+### Create your config file
+```yaml
+jenkins:
+  server: "https://jenkins.example.com/" # The jenkins server on which your jobs are
+  user: "example-user" # The jenkins user which has the permissions to trigger this jpb
+  token: "jenkins-token" # The token for jenkins user
 
-Then:
+jobs:
+  - name: "jenkins-job-name" # Jenkins job you want to trigger (you can add many jobs)
+    schedule: "0 * * * * *" # The schedule you need to configure for this job 
+    parameters: # the job custom parameters
+      envName: "testing"
+```    
+### Using the docker image
 ```shell script
- ./jenkins-scheduler     <flags>
+  docker run --rm -d  --name jenkins-scheduler -v `pwd`/config.yaml:/config.yaml afarid/jenkins-scheduler:latest
 ```
-    
-    
     
 [hub]: https://hub.docker.com/r/jenkins-scheduler
 [travis]: https://travis-ci.org/afarid/jenkins-scheduler
