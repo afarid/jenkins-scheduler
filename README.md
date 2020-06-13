@@ -9,11 +9,14 @@ The jenkins scheduler enables triggering jenkins jobs with predefined scheduled 
 
 ## Running this software 
 
-### from binaries 
+### From binaries 
 Download the most suitable binary from [the releases tab](https://github.com/afarid/jenkins-scheduler/releases)
 
 Then:
-    ./blackbox_exporter <flags>
+     ```bash
+     ./jenkins_scheduler     <flags>
+     ```
+    
     
     
 [hub]: https://hub.docker.com/r/jenkins-scheduler
