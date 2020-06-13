@@ -7,8 +7,6 @@
 
 
 
-
 [hub]: https://hub.docker.com/r/jenkins-scheduler
-[travis]: https://travis-ci.org/prometheus/mysqld_exporter
-[quay]: https://quay.io/repository/prometheus/mysqld-exporter
+[travis]: https://travis-ci.org/afarid/jenkins-scheduler
 [parsetime]: https://github.com/go-sql-driver/mysql#parsetime
