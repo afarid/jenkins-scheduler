@@ -9,9 +9,8 @@ before_install:
 script:
   - go build main.go
   - go build -o jenkins-scheduler main.go
-
-after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker build -t ${DOCKER_USER}/jenkins-scheduler:$TRAVIS_COMMIT
   - docker push ${DOCKER_USER}/jenkins-scheduler:$TRAVIS_COMMIT
 env:
   global:
