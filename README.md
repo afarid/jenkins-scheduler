@@ -3,10 +3,18 @@
 
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/amrfarid/jenkins-scheduler.svg?maxAge=604800)][hub]
-[![Go Report Card](https://goreportcard.com/badge/github.com/prometheus/mysqld_exporter)](https://goreportcard.com/report/github.com/prometheus/mysqld_exporter)
 
 
+The jenkins scheduler enables triggering jenkins jobs with predefined scheduled rules. 
 
+## Running this software 
+
+### from binaries 
+Download the most suitable binary from [the releases tab](https://github.com/afarid/jenkins-scheduler/releases)
+
+Then:
+    ./blackbox_exporter <flags>
+    
+    
 [hub]: https://hub.docker.com/r/jenkins-scheduler
 [travis]: https://travis-ci.org/afarid/jenkins-scheduler
-[parsetime]: https://github.com/go-sql-driver/mysql#parsetime
