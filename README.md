@@ -13,9 +13,9 @@ The jenkins scheduler enables triggering jenkins jobs with predefined scheduled 
 Download the most suitable binary from [the releases tab](https://github.com/afarid/jenkins-scheduler/releases)
 
 Then:
-     ```bash
-     ./jenkins_scheduler     <flags>
-     ```
+```shell script
+ ./jenkins-scheduler     <flags>
+```
     
     
     
