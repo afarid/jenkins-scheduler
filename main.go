@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"github.com/bndr/gojenkins"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/robfig/cron.v2"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -35,6 +35,8 @@ func triggerJenkinsJob(serverConfig JenkinsServerConfig, jenkinsToken string,  j
 	if err != nil {
 		return err
 	}
+
+	log.WithFields(log.Fields{"job-name": jobConfig.Name}).WithFields(log.Fields{"parameters": jobConfig.Parameters}).Info("Triggering Jenkins job")
 	_, err = jenkins.BuildJob(jobConfig.Name, jobConfig.Parameters)
 	if err != nil {
 		return err
@@ -56,20 +58,22 @@ func getJenkinsToken(serverConfig JenkinsServerConfig) (string, error) {
 }
 
 func main()  {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.Info("Parsing config file")
 	configFileByte, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
-		logrus.Fatal("unable to read config file", err)
+		log.Fatal("unable to read config file", err)
 	}
 	config := &Config{}
 
 	err = yaml.Unmarshal(configFileByte, config)
 	if err != nil {
-		logrus.Fatal("unable to unmarshal config data ", err)
+		log.Fatal("unable to unmarshal config data ", err)
 	}
 
 	jenkinsToken, err := getJenkinsToken(config.Jenkins)
 	if err != nil {
-		logrus.Fatalln(err)
+		log.Fatalln(err)
 	}
 
 	c := cron.New()
@@ -78,12 +82,12 @@ func main()  {
 		_, err = c.AddFunc(job.Schedule, func() {
 			err := triggerJenkinsJob(config.Jenkins, jenkinsToken, jobConfig )
 			if err != nil {
-				logrus.Fatalln("unable to trigger jenknis job", err)
+				log.Fatalln("unable to trigger jenknis job", err)
 			}
 		})
 
 		if err != nil {
-			logrus.Fatalln("Error adding new job", err)
+			log.Fatalln("Error adding new job", err)
 
 		}
 	}
