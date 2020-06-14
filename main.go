@@ -28,9 +28,9 @@ type Config struct {
 	Jobs []JenkinsJobConfig `yaml:"jobs"`
 }
 
-func triggerJenkinsJob(serverConfig JenkinsServerConfig, jenkinsToken string,  jobConfig JenkinsJobConfig ) error {
+func triggerJenkinsJob(serverConfig JenkinsServerConfig, jobConfig JenkinsJobConfig ) error {
 
-	jenkins := gojenkins.CreateJenkins(nil, serverConfig.Server, serverConfig.User, jenkinsToken)
+	jenkins := gojenkins.CreateJenkins(nil, serverConfig.Server, serverConfig.User, serverConfig.Token)
 	_, err := jenkins.Init()
 	if err != nil {
 		return err
@@ -44,34 +44,33 @@ func triggerJenkinsJob(serverConfig JenkinsServerConfig, jenkinsToken string,  j
 	return nil
 }
 
-func getJenkinsToken(serverConfig JenkinsServerConfig) (string, error) {
+func setJenkinsToken(serverConfig *JenkinsServerConfig) error {
 	jenkinsToken := os.Getenv("JENKINS_TOKEN")
-	if jenkinsToken == "" {
-		jenkinsToken = serverConfig.Token
-	}
-
 	if jenkinsToken != "" {
-		return jenkinsToken, nil
+		serverConfig.Token = jenkinsToken
 	}
-
-	return "", errors.New("unable to get Jenkins token")
+	if serverConfig.Token == "" {
+		return errors.New("jenkins token cannot be empty, you need to add it to your config or as env variable JENKINS_TOKEN")
+	}
+	
+	return  nil
 }
 
 func main()  {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.Info("Parsing config file")
-	configFileByte, err := ioutil.ReadFile("config.yaml")
+	configFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
 		log.Fatal("unable to read config file", err)
 	}
 	config := &Config{}
 
-	err = yaml.Unmarshal(configFileByte, config)
+	err = yaml.UnmarshalStrict(configFile, config)
 	if err != nil {
 		log.Fatal("unable to unmarshal config data ", err)
 	}
 
-	jenkinsToken, err := getJenkinsToken(config.Jenkins)
+	err = setJenkinsToken(&config.Jenkins)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -80,7 +79,7 @@ func main()  {
 	for _, job := range config.Jobs {
 		jobConfig := job
 		_, err = c.AddFunc(job.Schedule, func() {
-			err := triggerJenkinsJob(config.Jenkins, jenkinsToken, jobConfig )
+			err := triggerJenkinsJob(config.Jenkins, jobConfig )
 			if err != nil {
 				log.Fatalln("unable to trigger jenknis job", err)
 			}
